@@ -1,0 +1,36 @@
+1: Make a rock paper scissors game.  Game will be human vs computer best of 5.  Computer will choose at random.
+
+Is there a UI?  If so sketch that out, what is its functionality.
+	-What inputs will the program have.  
+	-Where will the data for the inputs come from?
+	-What are the desired outputs?
+	-Based on the inputs, what do you have to do to get to your outputs.  This is the algorithim design.
+		-Iterate psuedo coding this out
+
+No UI, console only
+Input is text, three choices
+Input will come from console
+Output is W/L each round and a best of 5 record
+
+X-start game loop
+prompt for the user's  input
+check for case?
+check for spelling?
+calculate the computer's outputs
+determine winner
+update record
+x-repeat until 5 rounds
+calculate winner
+display winner
+
+Features: Human vs computer
+Function called computer play, returns one option at random
+FUnction: plays a single round of game, takes player selection and computer selections, returns the results
+
+player slection is case-insensitive
+    rock, ROCK, RocK, r, R etc all work
+
+Game function, best of 5 keeps track
+Add a game loop
+console.log to display results of each round
+prompt() to get user input
