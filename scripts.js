@@ -1,94 +1,77 @@
-console.log("AAAAAYYYYY");
-
-let round = 1;
-let gameOn = true;
-let compScore = 0;
+//Variables
+let round = 0;
+let gameOver = false;
+let computerScore = 0;
 let playerScore = 0
 let computerChoice = "";
+let playerChoice = "";
 let result = "";
 
-let playerChoice;
+//Selectors
+const divRound = document.querySelector('#round');
+const divScore = document.querySelector('#score');
+const divResults = document.querySelector('#results');
+const btnRock = document.querySelector('#rock');
+const btnPaper = document.querySelector('#paper');
+const btnScissors = document.querySelector('#scissors');
 
-console.log('Get ready to play!')
-while(gameOn){
+//Event listeners
+btnRock.addEventListener('click', () => {
+    playerChoice = 'rock';
+    advanceState();
+});
 
-    console.log(`It is round ${ round }!  Lets play!`);
+btnPaper.addEventListener('click', () => {
+    playerChoice = 'paper';
+    advanceState();
+});
 
-    playerChoice = prompt('Make your choice!');
+btnScissors.addEventListener('click', () => {
+    playerChoice = 'scissors';
+    advanceState();
+});
 
-    playerChoice = playerChoice.toLowerCase();
-
-    switch (playerChoice) {
-        case "r":
-            playerChoice = "Rock";
-            break;
-        case "p":
-            playerChoice = "Paper";
-            break;
-        case "s":
-            playerChoice = "Scissors";
-            break;
-        case "rock":
-            playerChoice = "Rock";
-            break;
-        case "paper":
-            playerChoice = "Paper";
-            break;
-        case "scissors":
-            playerChoice = "Scissors";
-            break;
-        
-        default :
-            playerChoice = null      
-    }
-
-    if (playerChoice != null) {
-        //Only continue on if the input was parsed
-
-        console.log(`You chose ${ playerChoice}!`);
-
+/*************Function Definitions ********************* */
+function advanceState() {
+    if(!gameOver) {
         computerChoice = getComputerMove();
 
-        console.log(`The computer chose ${ computerChoice }`);
+        result = checkWinner(playerChoice, computerChoice);
 
-        result = checkWinner(playerChoice, computerChoice)
-        //Check who won the round
-        if (result == "draw") {
-            console.log("Draw!")
-        } else if (result == "win") {
+        if (result == 'draw') {
+            divResults.textContent = 'Draw!'
+        } else if (result === 'win') {
+            divResults.textContent = 'You won!'
             playerScore += 1;
-            console.log(`You won this round!  Score is you:${ playerScore } to computer: ${ compScore }`)
-            advanceRound();
-        } else if (result == "loss") {
-            compScore += 1;
-            console.log(`You lost this round!  Score is you:${ playerScore } to computer: ${ compScore }`)
-            advanceRound();
+        } else if (result === 'loss') {
+            divResults.textContent = 'You lost!'
+            computerScore += 1;
         }
 
-        
-    }
-    else {
-        console.log('I didn\'t understand your choice.')
-    }
+        if (computerScore >=5 || playerScore >= 5) {
+            gameOver = true;
+            divResults.textContent = `Game over! ${playerScore > computerScore ? 'You' : 'Computer'} won!`;
+        }
 
-    
+        divScore.textContent = `You: ${ playerScore } vs. Computer: ${ computerScore };`
+        
+        round += 1
+        divRound.textContent = `It is round :${ round }`;
+    }
 }
 
-console.log(`Game over!  Final score is you:${ playerScore } to computer: ${ compScore }.  ${ playerScore > compScore ? "You" : "Computer" } won!!`)
-
-//*************Function Definitions ********************* */
 function getComputerMove() {
     let num = Math.floor(Math.random() * 3);
 
     switch(num){
         case 0:
-            return 'Rock';
+            return 'rock';
             break;
         case 1:
-            return 'Paper';
+            return 'paper';
             break;
         case 2:
-            return 'Scissors';
+            return 'scissors';
             break;
     }
 }
@@ -98,29 +81,17 @@ function checkWinner(player, computer) {
     //Check for the draw
     if (player == computer) {
         return "draw";
-    } else if (player == "Rock" && computer == "Paper") {
+    } else if (player == "rock" && computer == "paper") {
         return "loss";
-    } else if (player == "Rock" && computer == "Scissors") {
+    } else if (player == "rock" && computer == "scissors") {
         return "win";
-    } else if (player == "Paper" && computer == "Rock") {
+    } else if (player == "paper" && computer == "rock") {
         return "win";
-    } else if (player == "Paper" && computer == "Scissors") {
+    } else if (player == "paper" && computer == "scissors") {
         return "loss";
-    } else if (player == "Scissors" && computer == "Paper") {
+    } else if (player == "scissors" && computer == "paper") {
         return "win";
-    } else if (player == "Scissors" && computer == "Rock") {
+    } else if (player == "scissors" && computer == "rock") {
         return "loss";
     }
 }
-
-function advanceRound() {
-    (round == 5) ? gameOn = false : gameOn = true;
-
-    if (playerScore >= 3 || compScore >= 3) gameOn = false;
-    
-    round += 1;
-}
-
-
-//examReport = `You scored ${ examScore }/${ examHighestScore } (${ Math.round(examScore/examHighestScore*100) }%). ${ examScore >= 49 
-    //'Well done, you passed!' : 'Bad luck, you didn\'t pass this time.' }`;
